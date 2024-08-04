@@ -1,6 +1,6 @@
 from rest_framework import viewsets
-from .models import Category, Product, Writer, Publisher
-from .serializers import CategorySerializer, ProductSerializer, WriterSerializer, PublisherSerializer
+from .models import Category, Product, Writer, Publisher, Order
+from .serializers import CategorySerializer, ProductSerializer, WriterSerializer, PublisherSerializer, OrderSerializer
 
 class WriterViewSet(viewsets.ModelViewSet):
     queryset = Writer.objects.all()
@@ -18,3 +18,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductSerializer
+
+class OrderViewSet(viewsets.ModelViewSet):
+    queryset = Order.objects.all()
+    serializer_class = OrderSerializer

@@ -39,3 +39,21 @@ class Product(models.Model):
 
     def __str__(self):
         return self.name
+
+class Order(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField(blank=True, null=True)
+    phone_number = models.CharField(max_length=20)
+    alt_phone_number = models.CharField(max_length=20, blank=True, null=True)
+    country = models.CharField(max_length=100)
+    district = models.CharField(max_length=100)
+    area = models.CharField(max_length=100)
+    address_details = models.TextField()
+    total = models.DecimalField(max_digits=10, decimal_places=2)
+    # discount = models.DecimalField(max_digits=10, decimal_places=2)
+    shipping_cost = models.DecimalField(max_digits=10, decimal_places=2)
+    grand_total = models.DecimalField(max_digits=10, decimal_places=2)
+    payment_method = models.CharField(max_length=50)
+
+    def __str__(self):
+        return f"Order {self.id} by {self.name}"
