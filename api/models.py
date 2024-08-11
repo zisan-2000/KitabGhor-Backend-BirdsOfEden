@@ -24,13 +24,13 @@ class Category(models.Model):
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
-    writer = models.CharField(max_length=100, default='Unknown Writer')
-    publication = models.CharField(max_length=100, default='Unknown Publication')
+    writer = models.ForeignKey(Writer, related_name='products', on_delete=models.SET_DEFAULT, default=1)
+    publisher = models.ForeignKey(Publisher, related_name='products', on_delete=models.SET_DEFAULT, default=1)
+    category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     original_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     discount = models.IntegerField(null=True, blank=True)
-    category = models.ForeignKey(Category, related_name='products', on_delete=models.CASCADE)
     stock = models.IntegerField()
     available = models.BooleanField(default=True)
     image = models.ImageField(upload_to='products/', null=True, blank=True)
@@ -52,7 +52,7 @@ class Order(models.Model):
     shipping_cost = models.DecimalField(max_digits=10, decimal_places=2)
     grand_total = models.DecimalField(max_digits=10, decimal_places=2)
     payment_method = models.CharField(max_length=50)
-    products = models.ManyToManyField('Product', related_name='orders', through='OrderItem')
+    products = models.ManyToManyField(Product, related_name='orders', through='OrderItem')
 
     def __str__(self):
         return f"Order {self.id} by {self.name}"
@@ -69,7 +69,6 @@ class OrderItem(models.Model):
 class Blog(models.Model):
     title = models.CharField(max_length=200)
     summary = models.TextField()
-    
     date = models.DateField()
     author = models.CharField(max_length=100)
     image = models.ImageField(upload_to='blog_images/')

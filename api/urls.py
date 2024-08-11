@@ -9,7 +9,7 @@ router.register(r'writers', WriterViewSet)
 router.register(r'publishers', PublisherViewSet)
 router.register(r'orders', OrderViewSet)
 router.register(r'blogs', BlogViewSet)
-router.register(r'contacts', ContactViewSet)  # Add this line
+router.register(r'contacts', ContactViewSet)
 
 urlpatterns = [
     path('', include(router.urls)),

@@ -23,7 +23,7 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class OrderItemSerializer(serializers.ModelSerializer):
     product_name = serializers.CharField(source='product.name', read_only=True)
-    product_image = serializers.ImageField(source='product.image', read_only=True)  # Add this line
+    product_image = serializers.ImageField(source='product.image', read_only=True)
 
     class Meta:
         model = OrderItem
