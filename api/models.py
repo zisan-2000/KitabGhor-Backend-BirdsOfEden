@@ -65,3 +65,24 @@ class OrderItem(models.Model):
 
     def __str__(self):
         return f"{self.product.name} x {self.quantity} for {self.order}"
+
+class Blog(models.Model):
+    title = models.CharField(max_length=200)
+    summary = models.TextField()
+    
+    date = models.DateField()
+    author = models.CharField(max_length=100)
+    image = models.ImageField(upload_to='blog_images/')
+
+    def __str__(self):
+        return self.title
+
+class Contact(models.Model):
+    name = models.CharField(max_length=100)
+    email = models.EmailField()
+    phone_number = models.CharField(max_length=20, null=True, blank=True)
+    message = models.TextField()
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Message from {self.name} ({self.email})"
