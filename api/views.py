@@ -2,6 +2,9 @@ from rest_framework import viewsets, status
 from rest_framework.response import Response
 from .models import Category, Product, Writer, Publisher, Order, OrderItem, Blog, Contact
 from .serializers import CategorySerializer, ProductSerializer, WriterSerializer, PublisherSerializer, OrderSerializer, BlogSerializer, ContactSerializer
+from django.conf import settings  # Import settings here
+from django.core.mail import send_mail  # Import send_mail here
+
 
 class WriterViewSet(viewsets.ModelViewSet):
     queryset = Writer.objects.all()
@@ -70,3 +73,24 @@ class BlogViewSet(viewsets.ModelViewSet):
 class ContactViewSet(viewsets.ModelViewSet):
     queryset = Contact.objects.all()
     serializer_class = ContactSerializer
+
+    def perform_create(self, serializer):
+        # Save the new Contact instance
+        contact = serializer.save()
+
+        # Prepare email details
+        subject = 'New Contact Form Submission'
+        message = (
+            f"Name: {contact.name}\n"
+            f"Email: {contact.email}\n"
+            f"Phone: {contact.phone_number}\n"
+            f"Message: {contact.message}"
+        )
+        from_email = settings.DEFAULT_FROM_EMAIL
+        recipient_list = [contact.email]  # Email address from the contact form
+        
+        # Send email
+        send_mail(subject, message, from_email, recipient_list, fail_silently=False)
+
+        # Return the response
+        return Response(serializer.data, status=status.HTTP_201_CREATED)

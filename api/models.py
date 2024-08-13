@@ -1,4 +1,10 @@
 from django.db import models
+from django.db.models.signals import post_save
+from django.dispatch import receiver
+from django.core.mail import send_mail
+from django.conf import settings
+from django.db import models
+
 
 class Writer(models.Model):
     name = models.CharField(max_length=100)
@@ -85,3 +91,14 @@ class Contact(models.Model):
 
     def __str__(self):
         return f"Message from {self.name} ({self.email})"
+
+@receiver(post_save, sender=Contact)
+def send_contact_email(sender, instance, created, **kwargs):
+    if created:
+        subject = 'New Contact Form Submission'
+        message = f"Name: {instance.name}\nEmail: {instance.email}\nPhone: {instance.phone_number}\nMessage: {instance.message}"
+        from_email = settings.DEFAULT_FROM_EMAIL
+        recipient_list = [instance.email]  # or any specific recipient
+
+        # Send email
+        send_mail(subject, message, from_email, recipient_list)

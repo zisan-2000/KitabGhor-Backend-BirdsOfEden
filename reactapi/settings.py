@@ -1,5 +1,3 @@
-# reactapi/settings.py
-
 import os
 from pathlib import Path
 
@@ -29,7 +27,6 @@ INSTALLED_APPS = [
     'api',
     'rest_framework',
     'corsheaders',  # Add this line
-    
 ]
 
 MIDDLEWARE = [
@@ -123,6 +120,15 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5173",
     "http://localhost:5174",  # Allow requests from your React development server
 ]
+
+# Email settings
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+EMAIL_HOST_USER = 'zisan19393871@gmail.com'
+EMAIL_HOST_PASSWORD = 'oxeg tafu rynx yjjb'
+DEFAULT_FROM_EMAIL = 'zisan19393871@gmail.com'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
